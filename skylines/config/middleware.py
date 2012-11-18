@@ -3,7 +3,7 @@
 
 from skylines.config.app_cfg import base_config
 from skylines.config.environment import load_environment
-from skylines.config import i18n
+from skylines.config import i18n, startup
 from skylines.middleware import (StaticRedirectionMiddleware, FilesMiddleware,
                                  AssetsMiddleware)
 from paste.cascade import Cascade
@@ -41,6 +41,7 @@ def make_app(global_conf, full_stack=True, **app_conf):
                    AssetsMiddleware(app_conf),
                    app])
 
+    startup.convert_glider_symbols()
     i18n.update()
 
     return app

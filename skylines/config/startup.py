@@ -30,6 +30,6 @@ def convert_glider_symbols():
         pngpath = 'skylines/public/images/glider_symbol_{}.png'.format(color[1:])
         png8path = 'skylines/public/images/glider_symbol_msie_{}.png'.format(color[1:])
 
-        color_svg(svgpath, colorsvgpath, '#000000', color)
+        color_svg(svgpath, colorsvgpath, '#ff0000', color)
         convert_svg(colorsvgpath, pngpath)
         convert_png(pngpath, png8path)

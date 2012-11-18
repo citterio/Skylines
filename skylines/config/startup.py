@@ -3,6 +3,13 @@ from skylines.lib.svg import rsvg_convert
 from skylines.lib.png import pngnq
 from distutils.dep_util import newer
 
+def color_svg(svgpath, colorsvgpath, original_color, replacement_color):
+    if not newer(svgpath, colorsvgpath): return
+    with open(svgpath) as svgfile, open(colorsvgpath, 'w') as colorsvgfile:
+        content = svgfile.read()
+        content = content.replace(original_color, replacement_color)
+        colorsvgfile.write(content)
+
 def convert_svg(svgpath, pngpath):
     if not newer(svgpath, pngpath): return
     with open(svgpath) as svgfile, open(pngpath, 'w') as pngfile:
@@ -15,9 +22,14 @@ def convert_png(pngpath, png8path):
 
 def convert_glider_symbols():
     svgpath = 'assets/graphics/glider_symbol.svg'
-    pngpath = 'skylines/public/images/glider_symbol.png'
-    png8path = 'skylines/public/images/glider_symbol_msie.png'
 
     watch_file(svgpath)
-    convert_svg(svgpath, pngpath)
-    convert_png(pngpath, png8path)
+
+    for color in ['#004bbd', '#bf0099', '#cf7c00', '#ff0000', '#00c994', '#ffff00']:
+        colorsvgpath = 'skylines/public/images/glider_symbol_{}.svg'.format(color[1:])
+        pngpath = 'skylines/public/images/glider_symbol_{}.png'.format(color[1:])
+        png8path = 'skylines/public/images/glider_symbol_msie_{}.png'.format(color[1:])
+
+        color_svg(svgpath, colorsvgpath, '#000000', color)
+        convert_svg(colorsvgpath, pngpath)
+        convert_png(pngpath, png8path)

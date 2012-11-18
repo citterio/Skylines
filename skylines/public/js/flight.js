@@ -67,7 +67,10 @@ function initFlightLayer() {
     context: {
       getGraphic: function(feature) {
         var msie_8 = $.browser.msie && (parseInt($.browser.version, 10) < 9);
-        var normal_glider = msie_8?"/images/glider_symbol_msie.png":"/images/glider_symbol.png";
+        var color = feature.attributes.color;
+        var normal_glider = msie_8 ?
+                "/images/glider_symbol_msie_" + color + ".png" :
+                "/images/glider_symbol_" + color + ".png";
         return normal_glider;
       }
     }
@@ -198,7 +201,7 @@ function addFlight(sfid, _lonlat, _levels, _num_levels, _time, _height, _enl, zo
   var plane = new OpenLayers.Feature.Vector(
     new OpenLayers.Geometry.Point(lonlat[0].lon, lonlat[0].lat).
       transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()),
-    { rotation: 0 }
+    { rotation: 0, color: color.slice(1) }
   );
   plane.renderIntent = 'plane';
 
